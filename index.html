@@ -3,73 +3,77 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Darken Rahl</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-    }
-
-    .container {
-      max-width: 500px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-    }
-
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-      color: #ffcc00;
-    }
-
-    p {
-      font-size: 1.2em;
-      margin-bottom: 30px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 12px 30px;
-      background: #ffcc00;
-      color: #000;
-      border: none;
-      border-radius: 30px;
-      text-decoration: none;
-      font-size: 1em;
-      transition: background 0.3s ease;
-    }
-
-    .btn:hover {
-      background: #e6b800;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2em;
-      }
-
-      p {
-        font-size: 1em;
-      }
-    }
-  </style>
+  <title>Rahl Bot Creator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-  <div class="container">
-    <h1>Welcome to Darken Rahl</h1>
-    <p>Your gateway to deploying powerful bots and automation tools.</p>
-    <a href="dashboard.html" class="btn">Get Started</a>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+
+  <div class="w-full max-w-md p-6 bg-gray-800 rounded-xl shadow-md">
+    <h1 class="text-2xl font-bold mb-4 text-center">Create Your Bot</h1>
+
+    <form id="botForm" class="space-y-4">
+      <div>
+        <label for="botName" class="block text-sm font-medium">Bot Name</label>
+        <input type="text" id="botName" class="w-full px-3 py-2 rounded bg-gray-700 text-white" required>
+      </div>
+
+      <div>
+        <label for="phone" class="block text-sm font-medium">WhatsApp Number</label>
+        <input type="tel" id="phone" class="w-full px-3 py-2 rounded bg-gray-700 text-white" placeholder="+254..." required>
+      </div>
+
+      <div>
+        <label for="logo" class="block text-sm font-medium">Upload Bot Logo</label>
+        <input type="file" id="logo" accept="image/*" class="w-full text-sm text-white bg-gray-700 rounded p-2" required>
+      </div>
+
+      <button type="submit" class="w-full bg-yellow-500 text-black font-bold py-2 px-4 rounded hover:bg-yellow-400 transition">
+        Create Bot
+      </button>
+    </form>
   </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <!-- Firebase Config -->
+  <script src="firebase-config.js"></script>
+
+  <!-- App Logic -->
+  <script>
+    const form = document.getElementById("botForm");
+    const deploymentLink = "https://your-deploy-platform.com"; // change this to your actual deployment link
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const botName = document.getElementById("botName").value;
+      const phone = document.getElementById("phone").value;
+      const logoFile = document.getElementById("logo").files[0];
+
+      if (!botName || !phone || !logoFile) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      const storageRef = firebase.storage().ref(`logos/${botName}-${Date.now()}`);
+      await storageRef.put(logoFile);
+      const logoURL = await storageRef.getDownloadURL();
+
+      const db = firebase.firestore();
+      await db.collection("bots").add({
+        botName,
+        phone,
+        logoURL,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      // Redirect after success
+      window.location.href = deploymentLink;
+    });
+  </script>
+
 </body>
 </html>
