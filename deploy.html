@@ -1,46 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Deploy Bot</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deploy Bot - Rahl Host</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <h1>🚀 Deploy WhatsApp Bot</h1>
-  <form id="deployForm">
-    <input type="text" id="botName" placeholder="Bot Name" required><br>
-    <input type="text" id="sessionId" placeholder="Session ID" required><br>
-    <input type="text" id="owner" placeholder="Owner Number" required><br>
-    <button type="submit">Deploy</button>
-  </form>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="firebase-config.js"></script>
-  <script>
-    document.getElementById("deployForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+<body class="bg-[#0a0f24] text-white font-sans">
+  <div class="max-w-2xl mx-auto mt-10 p-6 bg-[#11182f] rounded-xl shadow-lg">
+    <h2 class="text-2xl font-bold mb-6 text-center text-blue-400">Create a New Bot</h2>
+    
+    <form id="deployForm" class="space-y-5">
+      <input type="text" id="botName" placeholder="Bot Name" required class="w-full p-3 rounded bg-[#1e2b50] border border-blue-600 placeholder-gray-300"/>
+      
+      <input type="text" id="ownerName" placeholder="Your Name (e.g. Lord Rahl)" required class="w-full p-3 rounded bg-[#1e2b50] border border-blue-600 placeholder-gray-300"/>
+      
+      <input type="text" id="ownerNumber" placeholder="Owner WhatsApp Number (with +254)" required class="w-full p-3 rounded bg-[#1e2b50] border border-blue-600 placeholder-gray-300"/>
+      
+      <select id="engineType" required class="w-full p-3 rounded bg-[#1e2b50] border border-blue-600 text-white">
+        <option value="" disabled selected>Select Bot Engine</option>
+        <option value="venom">Venom</option>
+        <option value="baileys">Baileys</option>
+      </select>
 
-      const bot = {
-        name: botName.value,
-        session: sessionId.value,
-        owner: owner.value,
-        created: new Date().toISOString()
-      };
+      <button type="submit" class="w-full p-3 bg-blue-600 hover:bg-blue-700 rounded text-white font-bold transition">
+        🚀 Deploy Bot
+      </button>
+    </form>
 
-      const userRef = db.collection("users").doc("demo_user");
-      const userDoc = await userRef.get();
-      const coins = userDoc.exists ? userDoc.data().coins : 0;
+    <div id="feedback" class="mt-4 text-center text-sm text-green-400 hidden"></div>
+  </div>
 
-      if (coins < 10) {
-        alert("❌ Not enough coins. You need 10.");
-        return;
-      }
-
-      await db.collection("bots").add({ ...bot, uid: "demo_user" });
-      await userRef.update({ coins: coins - 10 });
-
-      alert("✅ Bot deployed!");
-      location.href = "mybots.html";
-    });
-  </script>
+  <script type="module" src="firebase-config.js"></script>
+  <script type="module" src="deploy.js"></script>
 </body>
 </html>
