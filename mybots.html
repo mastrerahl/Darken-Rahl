@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Bots</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🤖 My Deployed Bots</h1>
+  <ul id="botList">Loading...</ul>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    const list = document.getElementById("botList");
+
+    db.collection("bots").where("uid", "==", "demo_user").onSnapshot(snapshot => {
+      list.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        list.innerHTML += `<li><b>${data.name}</b> – Owner: ${data.owner}</li>`;
+      });
+    });
+  </script>
+</body>
+</html>
