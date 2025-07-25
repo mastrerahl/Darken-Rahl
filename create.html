@@ -1,0 +1,36 @@
+<!-- create.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RAHL Bot Creator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🤖 Create Your WhatsApp Bot</h1>
+
+    <form id="botForm">
+      <input type="text" id="botName" placeholder="Bot Name" required />
+      <input type="text" id="ownerNumber" placeholder="Owner WhatsApp Number" required />
+      <input type="text" id="sessionId" placeholder="Session ID" required />
+      <select id="mode" required>
+        <option value="">Select Mode</option>
+        <option value="public">Public</option>
+        <option value="private">Private</option>
+      </select>
+      <input type="text" id="prefix" placeholder="Command Prefix (e.g. . ! #)" required />
+      
+      <button type="submit">🚀 Deploy Bot</button>
+    </form>
+
+    <div id="status"></div>
+
+    <a href="mybots.html">📜 View My Bots</a>
+  </div>
+
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
