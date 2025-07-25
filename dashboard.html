@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
+</head>
+<body>
+  <h1>🎛 Dashboard</h1>
+  <div>
+    <p><strong>Coins:</strong> <span id="coinCount">Loading...</span></p>
+    <button onclick="claimDailyCoins()">Claim Daily 20 Coins</button>
+  </div>
+  <div class="nav">
+    <a href="deploy.html">🚀 Deploy Bot</a>
+    <a href="mybots.html">🤖 My Bots</a>
+  </div>
+  <script>
+    getCoinCount().then(coins => {
+      document.getElementById("coinCount").innerText = coins;
+    });
+  </script>
+</body>
+</html>
