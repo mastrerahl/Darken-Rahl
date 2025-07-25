@@ -3,39 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Create Your Bot | Rahl Host</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Create Your WhatsApp Bot</title>
+  <link href="style.css" rel="stylesheet"/>
 </head>
-<body>
+<body class="dark-bg">
   <div class="container">
-    <h1>💬 Create Your WhatsApp Bot</h1>
-
+    <h1>Create Your Bot</h1>
     <form id="botForm">
-      <label for="botName">Bot Name</label>
-      <input type="text" id="botName" placeholder="e.g. Rahl Assistant" required />
+      <label>Bot Name</label>
+      <input type="text" id="botName" required />
 
-      <label for="ownerNumber">Owner WhatsApp Number</label>
-      <input type="text" id="ownerNumber" placeholder="e.g. 2547XXXXXXXX" required />
+      <label>WhatsApp Number</label>
+      <input type="tel" id="botNumber" placeholder="+254..." required />
 
-      <label for="botLogo">Upload Bot Logo</label>
-      <input type="file" id="botLogo" accept="image/*" required />
-
-      <label for="botType">Select Bot Engine</label>
-      <select id="botType" required>
-        <option value="venom">Venom</option>
-        <option value="baileys">Baileys</option>
-      </select>
+      <label>Bot Logo</label>
+      <input type="file" id="botLogo" accept="image/*"/>
 
       <button type="submit">Create Bot</button>
     </form>
-
-    <div id="result" class="hidden">
-      <h2>✅ Bot Config Ready</h2>
-      <p>Your bot config is complete. Proceed to deploy:</p>
-      <a id="deployLink" href="#" class="deploy-btn" target="_blank">Deploy Bot</a>
-    </div>
   </div>
 
-  <script src="app.js"></script>
+  <script>
+    document.getElementById('botForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('botName').value.trim();
+      const number = document.getElementById('botNumber').value.trim();
+      // Optional: handle logo
+      const redirectURL = `https://your-deployment-panel-link.com?name=${encodeURIComponent(name)}&number=${encodeURIComponent(number)}`;
+      window.location.href = redirectURL;
+    });
+  </script>
 </body>
 </html>
