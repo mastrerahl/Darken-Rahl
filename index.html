@@ -3,34 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Create Your WhatsApp Bot</title>
-  <link href="style.css" rel="stylesheet"/>
+  <title>Create WhatsApp Bot | Lord Rahl</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="dark-bg">
+<body>
   <div class="container">
-    <h1>Create Your Bot</h1>
+    <h1>🤖 Create Your WhatsApp Bot</h1>
     <form id="botForm">
-      <label>Bot Name</label>
-      <input type="text" id="botName" required />
+      <label for="botName">Bot Name</label>
+      <input type="text" id="botName" name="botName" placeholder="e.g. AlphaBot" required />
 
-      <label>WhatsApp Number</label>
-      <input type="tel" id="botNumber" placeholder="+254..." required />
+      <label for="number">Your WhatsApp Number</label>
+      <input type="tel" id="number" name="number" placeholder="+2547XXXXXXXX" required />
 
-      <label>Bot Logo</label>
-      <input type="file" id="botLogo" accept="image/*"/>
+      <label for="logo">Upload Logo</label>
+      <input type="file" id="logo" name="logo" accept="image/*" />
+
+      <label for="engine">Choose Bot Engine</label>
+      <select id="engine" name="engine" required>
+        <option value="">-- Select Engine --</option>
+        <option value="venom">Venom</option>
+        <option value="baileys">Baileys</option>
+      </select>
 
       <button type="submit">Create Bot</button>
     </form>
   </div>
 
   <script>
-    document.getElementById('botForm').addEventListener('submit', function(e) {
+    const form = document.getElementById("botForm");
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
-      const name = document.getElementById('botName').value.trim();
-      const number = document.getElementById('botNumber').value.trim();
-      // Optional: handle logo
-      const redirectURL = `https://your-deployment-panel-link.com?name=${encodeURIComponent(name)}&number=${encodeURIComponent(number)}`;
-      window.location.href = redirectURL;
+
+      // You can customize this part later to send data to Firestore or a backend
+      const botName = form.botName.value;
+      const number = form.number.value;
+      const engine = form.engine.value;
+
+      alert(`Bot "${botName}" is being created using ${engine.toUpperCase()} engine.`);
+
+      // Example redirect to deployment platform (adjust URL)
+      window.location.href = "deploy.html";
     });
   </script>
 </body>
