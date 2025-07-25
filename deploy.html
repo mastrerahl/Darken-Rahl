@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Deploy Bot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🚀 Deploy WhatsApp Bot</h1>
+  <form id="deployForm">
+    <input type="text" id="botName" placeholder="Bot Name" required><br>
+    <input type="text" id="sessionId" placeholder="Session ID" required><br>
+    <input type="text" id="owner" placeholder="Owner Number" required><br>
+    <button type="submit">Deploy</button>
+  </form>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    document.getElementById("deployForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const bot = {
+        name: botName.value,
+        session: sessionId.value,
+        owner: owner.value,
+        created: new Date().toISOString()
+      };
+
+      const userRef = db.collection("users").doc("demo_user");
+      const userDoc = await userRef.get();
+      const coins = userDoc.exists ? userDoc.data().coins : 0;
+
+      if (coins < 10) {
+        alert("❌ Not enough coins. You need 10.");
+        return;
+      }
+
+      await db.collection("bots").add({ ...bot, uid: "demo_user" });
+      await userRef.update({ coins: coins - 10 });
+
+      alert("✅ Bot deployed!");
+      location.href = "mybots.html";
+    });
+  </script>
+</body>
+</html>
