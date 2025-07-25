@@ -1,26 +1,18 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="en">
 <head>
-  <title>My Bots</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bots - Darken Rahl</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js" defer></script>
 </head>
-<body>
-  <h1>🤖 My Deployed Bots</h1>
-  <ul id="botList">Loading...</ul>
-
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="firebase-config.js"></script>
-  <script>
-    const list = document.getElementById("botList");
-
-    db.collection("bots").where("uid", "==", "demo_user").onSnapshot(snapshot => {
-      list.innerHTML = "";
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        list.innerHTML += `<li><b>${data.name}</b> – Owner: ${data.owner}</li>`;
-      });
-    });
-  </script>
+<body class="bg-black text-white font-sans">
+  <header class="bg-blue-900 p-4 text-center text-2xl font-bold">
+    My Created Bots
+  </header>  <main class="p-4" id="botsContainer">
+    <!-- Bot cards will appear here -->
+  </main>  <footer class="p-4 text-center">
+    <a href="dashboard.html" class="text-blue-400 hover:underline">Back to Dashboard</a>
+  </footer>
 </body>
 </html>
