@@ -1,27 +1,117 @@
-body {
-  font-family: sans-serif;
-  padding: 20px;
-  background: #f2f2f2;
+body.dark-bg {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0d0d1a;
+  color: #cce6ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
+
+.container {
+  background: #111122;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(0,0,255,0.2);
+  width: 90%;
+  max-width: 400px;
+}
+
 h1 {
-  color: #333;
+  text-align: center;
+  color: #3399ff;
+  margin-bottom: 20px;
 }
-input, button {
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin: 10px 0 4px;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="file"] {
   padding: 10px;
-  margin: 5px 0;
-  width: 100%;
-}
-button {
-  background: royalblue;
-  color: white;
   border: none;
+  border-radius: 8px;
+  background: #1a1a2e;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+button {
+  background-color: #0059b3;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
   cursor: pointer;
 }
-.nav a {
-  display: inline-block;
-  margin: 10px;
+
+button:hover {
+  background-color: #0073e6;
+}body.dark-bg {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0d0d1a;
+  color: #cce6ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: #111122;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(0,0,255,0.2);
+  width: 90%;
+  max-width: 400px;
+}
+
+h1 {
+  text-align: center;
+  color: #3399ff;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin: 10px 0 4px;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="file"] {
   padding: 10px;
-  background: #333;
-  color: white;
-  text-decoration: none;
+  border: none;
+  border-radius: 8px;
+  background: #1a1a2e;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+button {
+  background-color: #0059b3;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0073e6;
 }
