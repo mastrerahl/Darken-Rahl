@@ -3,77 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rahl Bot Creator</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Create Your Bot | Rahl Host</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+<body>
+  <div class="container">
+    <h1>💬 Create Your WhatsApp Bot</h1>
 
-  <div class="w-full max-w-md p-6 bg-gray-800 rounded-xl shadow-md">
-    <h1 class="text-2xl font-bold mb-4 text-center">Create Your Bot</h1>
+    <form id="botForm">
+      <label for="botName">Bot Name</label>
+      <input type="text" id="botName" placeholder="e.g. Rahl Assistant" required />
 
-    <form id="botForm" class="space-y-4">
-      <div>
-        <label for="botName" class="block text-sm font-medium">Bot Name</label>
-        <input type="text" id="botName" class="w-full px-3 py-2 rounded bg-gray-700 text-white" required>
-      </div>
+      <label for="ownerNumber">Owner WhatsApp Number</label>
+      <input type="text" id="ownerNumber" placeholder="e.g. 2547XXXXXXXX" required />
 
-      <div>
-        <label for="phone" class="block text-sm font-medium">WhatsApp Number</label>
-        <input type="tel" id="phone" class="w-full px-3 py-2 rounded bg-gray-700 text-white" placeholder="+254..." required>
-      </div>
+      <label for="botLogo">Upload Bot Logo</label>
+      <input type="file" id="botLogo" accept="image/*" required />
 
-      <div>
-        <label for="logo" class="block text-sm font-medium">Upload Bot Logo</label>
-        <input type="file" id="logo" accept="image/*" class="w-full text-sm text-white bg-gray-700 rounded p-2" required>
-      </div>
+      <label for="botType">Select Bot Engine</label>
+      <select id="botType" required>
+        <option value="venom">Venom</option>
+        <option value="baileys">Baileys</option>
+      </select>
 
-      <button type="submit" class="w-full bg-yellow-500 text-black font-bold py-2 px-4 rounded hover:bg-yellow-400 transition">
-        Create Bot
-      </button>
+      <button type="submit">Create Bot</button>
     </form>
+
+    <div id="result" class="hidden">
+      <h2>✅ Bot Config Ready</h2>
+      <p>Your bot config is complete. Proceed to deploy:</p>
+      <a id="deployLink" href="#" class="deploy-btn" target="_blank">Deploy Bot</a>
+    </div>
   </div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-
-  <!-- Firebase Config -->
-  <script src="firebase-config.js"></script>
-
-  <!-- App Logic -->
-  <script>
-    const form = document.getElementById("botForm");
-    const deploymentLink = "https://your-deploy-platform.com"; // change this to your actual deployment link
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const botName = document.getElementById("botName").value;
-      const phone = document.getElementById("phone").value;
-      const logoFile = document.getElementById("logo").files[0];
-
-      if (!botName || !phone || !logoFile) {
-        alert("Please fill all fields.");
-        return;
-      }
-
-      const storageRef = firebase.storage().ref(`logos/${botName}-${Date.now()}`);
-      await storageRef.put(logoFile);
-      const logoURL = await storageRef.getDownloadURL();
-
-      const db = firebase.firestore();
-      await db.collection("bots").add({
-        botName,
-        phone,
-        logoURL,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-
-      // Redirect after success
-      window.location.href = deploymentLink;
-    });
-  </script>
-
+  <script src="app.js"></script>
 </body>
 </html>
