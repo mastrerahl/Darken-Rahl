@@ -3,51 +3,134 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RAHL Bot Panel</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Darken Rahl - Create Bot</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0a0a1a;
+      color: white;
+    }
+
+    header {
+      background-color: #071a2d;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .logo-btn img {
+      height: 40px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 3rem auto;
+      background: #0d1a2e;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #001f3f;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #4dabf7;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-size: 14px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      background: #1e2b40;
+      border: 1px solid #4dabf7;
+      border-radius: 8px;
+      color: white;
+    }
+
+    button.create-btn {
+      width: 100%;
+      margin-top: 2rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+
+    button.create-btn:hover {
+      background: #0056b3;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
 </head>
-<body class="bg-[#0f172a] text-white min-h-screen flex items-center justify-center px-4">
+<body>
+  <header>
+    <h1>Darken Rahl</h1>
+    <!-- Bot Logo Button -->
+    <button class="logo-btn" onclick="window.location.href='dashboard.html'">
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968841.png" alt="Bot Logo">
+    </button>
+  </header>
 
-  <div class="w-full max-w-md p-6 bg-[#1e293b] rounded-2xl shadow-2xl border border-blue-600">
-    <h1 class="text-3xl font-bold text-center text-blue-400 mb-4">RAHL Bot Deployment</h1>
-    <p class="text-center text-sm text-gray-300 mb-6">Choose engine & deploy your WhatsApp bot</p>
+  <div class="container">
+    <h2>Create Your Bot</h2>
+    
+    <form id="createBotForm">
+      <label for="botName">Bot Name</label>
+      <input type="text" id="botName" placeholder="Enter Bot Name" required />
 
-    <form id="deployForm" class="space-y-4">
-      <input 
-        type="text" 
-        id="botName" 
-        placeholder="Bot Name (e.g., LordRahl)" 
-        class="w-full p-3 rounded-lg bg-[#334155] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" 
-        required 
-      />
+      <label for="ownerName">Owner Name</label>
+      <input type="text" id="ownerName" placeholder="Enter Owner Name" required />
 
-      <select 
-        id="engine" 
-        class="w-full p-3 rounded-lg bg-[#334155] text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
+      <label for="ownerPhone">Owner Phone Number</label>
+      <input type="tel" id="ownerPhone" placeholder="+2547xxxxxxxx" required />
+
+      <label for="botEngine">Select Bot Engine</label>
+      <select id="botEngine" required>
+        <option value="">-- Select Engine --</option>
         <option value="venom">Venom</option>
         <option value="baileys">Baileys</option>
+        <option value="open-wa">OpenWA</option>
       </select>
 
-      <input 
-        type="text" 
-        id="sessionId" 
-        placeholder="Enter Session ID" 
-        class="w-full p-3 rounded-lg bg-[#334155] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" 
-        required 
-      />
-
-      <button 
-        type="submit" 
-        class="w-full p-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-300"
-      >
-        🚀 Deploy Bot
-      </button>
+      <button type="submit" class="create-btn">Create Bot</button>
     </form>
-
-    <p class="text-xs text-center mt-6 text-gray-400">Built with ⚡ by Lord Rahl</p>
   </div>
 
-  <script src="deploy.js"></script>
+  <footer>
+    © 2025 Darken Rahl Bot Engine Panel
+  </footer>
+
+  <script>
+    document.getElementById('createBotForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Bot Created! 🚀 (This will connect to deploy.js and Firebase)');
+      // Later: Connect to deploy.js or Firebase
+    });
+  </script>
 </body>
-</html>
+  </html>
