@@ -1,80 +1,76 @@
 // deploy.js
-import { getFirestore, collection, addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { app } from "./firebase-config.js";
 
-const db = getFirestore(app);
-const auth = getAuth(app);
+const { create } = require('venom-bot');
+const admin = require('firebase-admin');
+const fs = require('fs');
+const path = require('path');
 
-const form = document.getElementById("deployForm");
-const feedback = document.getElementById("feedback");
+// Load Firebase credentials
+const serviceAccount = require('./firebase-admin.json');
 
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = "login.html";
-  }
+// Initialize Firebase Admin
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+const db = admin.firestore();
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+// Firestore collection where deployment forms are saved
+const botsRef = db.collection('bots');
 
-    const botName = document.getElementById("botName").value.trim();
-    const ownerName = document.getElementById("ownerName").value.trim();
-    const ownerNumber = document.getElementById("ownerNumber").value.trim();
-    const engineType = document.getElementById("engineType").value;
+// Track already deployed bots to avoid duplicates
+const startedBots = new Set();
 
-    if (!botName || !ownerName || !ownerNumber || !engineType) {
-      feedback.textContent = "Please fill all fields.";
-      feedback.classList.remove("hidden", "text-green-400");
-      feedback.classList.add("text-red-400");
-      return;
-    }
+console.log('🟢 Waiting for bot deployments...');
 
-    const userDocRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userDocRef);
+// Listen for changes in the bots collection
+botsRef.onSnapshot((snapshot) => {
+  snapshot.docChanges().forEach((change) => {
+    const botData = change.doc.data();
+    const botId = change.doc.id;
 
-    if (!userSnap.exists()) {
-      feedback.textContent = "User data not found.";
-      feedback.classList.remove("hidden", "text-green-400");
-      feedback.classList.add("text-red-400");
-      return;
-    }
+    if (change.type === 'added' && !startedBots.has(botId)) {
+      console.log(`🚀 Deploying new bot: ${botData.botName}`);
 
-    const userData = userSnap.data();
-    const currentCoins = userData.coins || 0;
+      // Mark this bot as started
+      startedBots.add(botId);
 
-    if (currentCoins < 10) {
-      feedback.textContent = "You need at least 10 coins to deploy a bot. Try again after claiming daily coins.";
-      feedback.classList.remove("hidden", "text-green-400");
-      feedback.classList.add("text-red-400");
-      return;
-    }
+      // Save session file (as venom needs it on disk)
+      const sessionDir = path.join(__dirname, 'sessions', botId);
+      fs.mkdirSync(sessionDir, { recursive: true });
 
-    try {
-      // Save bot details
-      await addDoc(collection(db, "bots"), {
-        botName,
-        ownerName,
-        ownerNumber,
-        engine: engineType,
-        userId: user.uid,
-        deployedAt: new Date(),
-      });
+      const sessionFile = path.join(sessionDir, `${botId}.json`);
+      fs.writeFileSync(sessionFile, botData.session);
 
-      // Deduct coins
-      await updateDoc(userDocRef, {
-        coins: currentCoins - 10,
-      });
-
-      feedback.textContent = "✅ Bot deployed successfully using " + engineType.toUpperCase() + " engine!";
-      feedback.classList.remove("hidden", "text-red-400");
-      feedback.classList.add("text-green-400");
-
-      form.reset();
-    } catch (error) {
-      console.error("Error deploying bot:", error);
-      feedback.textContent = "An error occurred while deploying the bot.";
-      feedback.classList.remove("hidden", "text-green-400");
-      feedback.classList.add("text-red-400");
+      // Start the bot with venom
+      create({
+        session: botId,
+        multidevice: true,
+        headless: true,
+        disableWelcome: true,
+        logQR: false,
+        sessionPath: sessionDir,
+      })
+        .then((client) => startBot(client, botData))
+        .catch((error) => console.error(`❌ Failed to start ${botData.botName}:`, error));
     }
   });
 });
+
+function startBot(client, botData) {
+  console.log(`✅ Bot "${botData.botName}" is now running`);
+
+  client.onMessage(async (message) => {
+    if (message.body === `${botData.prefix}ping`) {
+      await client.sendText(message.from, `🤖 Hello from *${botData.botName}*. A project by Lord Rahl.`);
+    }
+
+    if (message.body === `${botData.prefix}info`) {
+      await client.sendText(
+        message.from,
+        `👑 This bot belongs to: *${botData.owner}*\n📛 Bot Name: *${botData.botName}*\n🧠 Engine: *Venom*\n🪪 Created by: *Lord Rahl*`
+      );
+    }
+
+    // Add more commands here as needed
+  });
+              }
