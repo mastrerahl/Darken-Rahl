@@ -3,134 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Darken Rahl - Create Bot</title>
+  <title>Darken Rahl | Create Bot</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #0a0a1a;
+      font-family: Arial, sans-serif;
+      background-color: #0f172a;
       color: white;
+      margin: 0;
+      padding: 0;
     }
-
-    header {
-      background-color: #071a2d;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    .logo-btn img {
-      height: 40px;
-    }
-
     .container {
       max-width: 600px;
-      margin: 3rem auto;
-      background: #0d1a2e;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 20px #001f3f;
+      margin: auto;
+      padding: 30px;
     }
-
-    h2 {
+    h1 {
       text-align: center;
-      margin-bottom: 2rem;
-      color: #4dabf7;
+      color: #38bdf8;
     }
-
     label {
       display: block;
-      margin-top: 1rem;
-      font-size: 14px;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: bold;
     }
-
     input, select {
       width: 100%;
       padding: 10px;
-      margin-top: 6px;
-      background: #1e2b40;
-      border: 1px solid #4dabf7;
       border-radius: 8px;
-      color: white;
-    }
-
-    button.create-btn {
-      width: 100%;
-      margin-top: 2rem;
-      background: #007bff;
-      color: white;
       border: none;
+      margin-bottom: 10px;
+    }
+    input[type="file"] {
+      background-color: #fff;
+    }
+    button {
+      width: 100%;
       padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
+      background-color: #38bdf8;
+      color: #0f172a;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
       font-size: 16px;
-      transition: background 0.3s ease;
+      cursor: pointer;
+      margin-top: 15px;
     }
-
-    button.create-btn:hover {
-      background: #0056b3;
-    }
-
-    footer {
+    .show-bots {
+      margin-top: 30px;
       text-align: center;
-      margin-top: 3rem;
-      font-size: 14px;
-      color: #888;
+    }
+    .show-bots a button {
+      background-color: #1e293b;
+      color: white;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Darken Rahl</h1>
-    <!-- Bot Logo Button -->
-    <button class="logo-btn" onclick="window.location.href='dashboard.html'">
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968841.png" alt="Bot Logo">
-    </button>
-  </header>
-
   <div class="container">
-    <h2>Create Your Bot</h2>
+    <h1>🤖 Create Your Bot</h1>
     
     <form id="createBotForm">
       <label for="botName">Bot Name</label>
-      <input type="text" id="botName" placeholder="Enter Bot Name" required />
+      <input type="text" id="botName" name="botName" required />
 
       <label for="ownerName">Owner Name</label>
-      <input type="text" id="ownerName" placeholder="Enter Owner Name" required />
+      <input type="text" id="ownerName" name="ownerName" required />
 
       <label for="ownerPhone">Owner Phone Number</label>
-      <input type="tel" id="ownerPhone" placeholder="+2547xxxxxxxx" required />
+      <input type="tel" id="ownerPhone" name="ownerPhone" required />
 
-      <label for="botEngine">Select Bot Engine</label>
-      <select id="botEngine" required>
-        <option value="">-- Select Engine --</option>
+      <label for="botEngine">Choose Bot Engine</label>
+      <select id="botEngine" name="botEngine" required>
+        <option value="">--Select Engine--</option>
         <option value="venom">Venom</option>
         <option value="baileys">Baileys</option>
-        <option value="open-wa">OpenWA</option>
+        <option value="md">Multi-Device</option>
       </select>
 
-      <button type="submit" class="create-btn">Create Bot</button>
+      <label for="botLogo">Upload Bot Logo</label>
+      <input type="file" id="botLogo" name="botLogo" accept="image/*" required />
+
+      <button type="submit">🚀 Create Bot</button>
     </form>
+
+    <!-- Show Bots Button -->
+    <div class="show-bots">
+      <a href="mybots.html">
+        <button>🔍 Show My Bots</button>
+      </a>
+    </div>
   </div>
 
-  <footer>
-    © 2025 Darken Rahl Bot Engine Panel
-  </footer>
-
-  <script>
-    document.getElementById('createBotForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Bot Created! 🚀 (This will connect to deploy.js and Firebase)');
-      // Later: Connect to deploy.js or Firebase
-    });
-  </script>
+  <script src="app.js"></script>
 </body>
-  </html>
+</html>
